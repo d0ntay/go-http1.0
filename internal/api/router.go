@@ -22,5 +22,7 @@ func route(c net.Conn) {
 			homeHandler(writer)
 		case "GET /health HTTP/1.1\r\n":
 			healthChechHandler(writer)
+		default:
+			notFoundHandler(writer)
 	}
 }
