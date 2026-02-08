@@ -2,27 +2,32 @@ package api
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net"
 )
 
 func route(c net.Conn) {
 	defer c.Close()
+
 	reader := bufio.NewReader(c)
 	writer := bufio.NewWriter(c)
 	defer writer.Flush()
 
-	line, err := reader.ReadString('\n')
-	log.Printf("request: %s",line)
+	req, err := parseRequest(*reader)
 	if err != nil {
-		log.Fatal("error reading request")
+		fmt.Printf("%q",err)
 	}
-	switch line{
-		case "GET / HTTP/1.0\r\n":
-			homeHandler(writer)
-		case "GET /health HTTP/1.0\r\n":
-			healthChechHandler(writer)
+
+	switch req.Uri{
+		case "/":
+			log.Printf("Method: %s | Uri: %s | Version: %s | Headers: %s \n",req.Method, req.Uri ,req.Version, req.Headers)
+			homeHandler(writer, req)
+		case "/health":
+			log.Printf("Method: %s | Uri: %s | Version: %s | Headers: %s \n",req.Method, req.Uri ,req.Version, req.Headers)
+			healthChechHandler(writer, req)
 		default:
+			log.Printf("Method: %s | Uri: %s | Version: %s | Headers: %s \n",req.Method, req.Uri ,req.Version, req.Headers)
 			notFoundHandler(writer)
 	}
 }

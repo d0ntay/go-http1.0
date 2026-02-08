@@ -5,10 +5,11 @@ import (
 )
 
 func main() {
-	cfg, err := api.NewConfig(":8080")
-	if err!= nil {
-		panic(err)
+
+	cfg := &api.Config{
+		Addr: ":8080",
 	}
+
 	srv, err:= api.NewServer(*cfg)
 	if err != nil {
 		panic(err)

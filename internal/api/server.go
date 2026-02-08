@@ -9,9 +9,9 @@ type Server struct {
 	Cfg Config
 }
 
-func NewServer(c Config) (*Server, error) {
+func NewServer(cfg Config) (*Server, error){
 	return &Server{
-		Cfg: c,
+		Cfg: cfg,
 	},nil
 }
 
