@@ -6,6 +6,7 @@ import (
 )
 
 func notFoundHandler(w *bufio.Writer) {
+	
 	body := "404"
 	w.WriteString("HTTP/1.0 404 Not Found\r\n")
 	w.WriteString("Content-Type: text/plain\r\n")
